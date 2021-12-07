@@ -1,0 +1,55 @@
+---
+title: "Untitled"
+author: "Jiacheng Wu"
+date: "12/6/2021"
+output: github_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(corrplot)
+library(leaps)
+library(MASS)
+library(performance)
+```
+
+
+```{r}
+crime_df = read.csv("cdi.csv")
+```
+
+```{r}
+crime_df_1 = 
+  dplyr::select(crime_df, -id, -cty, -state)
+```
+
+```{r}
+pairs(crime_df_1)
+```
+
+```{r}
+corrplot(cor(crime_df_1), type = "upper", diag = FALSE)
+```
+
+```{r}
+boxplot(crime_df_1$pop, main = "Total population")
+boxplot(crime_df_1$pop18, main = "Percent of population aged 18-34")
+boxplot(crime_df_1$pop65, main = "Percent of population aged 65+")
+boxplot(crime_df_1$area, main = "Land area")
+boxplot(crime_df_1$docs, main = "Number of active physicians")
+boxplot(crime_df_1$beds, main = "Number of hospital beds")
+boxplot(crime_df_1$crimes, main = "Total serious crimes")
+boxplot(crime_df_1$hsgrad, main = "Percent high school graduates")
+boxplot(crime_df_1$bagrad, main = "Percent bachelor's degrees")
+boxplot(crime_df_1$poverty, main = "Percent below poverty level")
+boxplot(crime_df_1$unemp, main = "Percent unemployment")
+boxplot(crime_df_1$pcincome, main = "Per capita income")
+boxplot(crime_df_1$totalinc, main = "Total personal income")
+boxplot(crime_df_1$region, main = "Geographical region")
+
+mult.fit = lm(crimes ~ ., data = crime_df_1)
+summary(mult.fit)
+```
+
