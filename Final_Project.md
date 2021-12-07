@@ -25,90 +25,23 @@ corrplot(cor(crime_df_1), type = "upper", diag = FALSE)
 ![](Final_Project_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
+attach(crime_df_1)
+par(mfrow=c(4, 4))
 boxplot(crime_df_1$pop, main = "Total population")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$pop18, main = "Percent of population aged 18-34")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$pop65, main = "Percent of population aged 65+")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-3.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$area, main = "Land area")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-4.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$docs, main = "Number of active physicians")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-5.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$beds, main = "Number of hospital beds")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-6.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$crimes, main = "Total serious crimes")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-7.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$hsgrad, main = "Percent high school graduates")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-8.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$bagrad, main = "Percent bachelor's degrees")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-9.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$poverty, main = "Percent below poverty level")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-10.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$unemp, main = "Percent unemployment")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-11.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$pcincome, main = "Per capita income")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-12.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$totalinc, main = "Total personal income")
-```
-
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-13.png)<!-- -->
-
-``` r
 boxplot(crime_df_1$region, main = "Geographical region")
-```
 
-![](Final_Project_files/figure-gfm/unnamed-chunk-5-14.png)<!-- -->
-
-``` r
 mult.fit = lm(crimes ~ ., data = crime_df_1)
 summary(mult.fit)
 ```
@@ -143,3 +76,5 @@ summary(mult.fit)
     ## Residual standard error: 23370 on 426 degrees of freedom
     ## Multiple R-squared:  0.8438, Adjusted R-squared:  0.839 
     ## F-statistic:   177 on 13 and 426 DF,  p-value: < 2.2e-16
+
+![](Final_Project_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->

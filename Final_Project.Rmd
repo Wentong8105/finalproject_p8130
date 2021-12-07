@@ -34,6 +34,9 @@ corrplot(cor(crime_df_1), type = "upper", diag = FALSE)
 ```
 
 ```{r}
+
+attach(crime_df_1)
+par(mfrow=c(4, 4))
 boxplot(crime_df_1$pop, main = "Total population")
 boxplot(crime_df_1$pop18, main = "Percent of population aged 18-34")
 boxplot(crime_df_1$pop65, main = "Percent of population aged 65+")
