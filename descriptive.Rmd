@@ -12,17 +12,17 @@ library(tidyverse)
 cdi_df=
   readr::read_csv("./cdi.csv")
 cdi_df
-ggplot(cdi_df,aes(x=pop))+
+ggplot(cdi_df,aes(x = pop)) +
   geom_histogram()
-ggplot(cdi_df,aes(x=pop18))+
+ggplot(cdi_df,aes(x = pop18)) +
   geom_histogram()
-ggplot(cdi_df,aes(x=pop65))+
+ggplot(cdi_df,aes(x = pop65)) +
   geom_histogram()
-ggplot(cdi_df,aes(x=docs))+
+ggplot(cdi_df,aes(x = docs)) +
   geom_histogram()
-ggplot(cdi_df,aes(x=beds))+
+ggplot(cdi_df,aes(x = beds)) +
   geom_histogram()
-ggplot(cdi_df,aes(x=crimes))+
+ggplot(cdi_df,aes(x = crimes))+
   geom_histogram()
 ```
 

@@ -36,7 +36,7 @@ corrplot(cor(crime_df_1), type = "upper", diag = FALSE)
 ```{r}
 
 attach(crime_df_1)
-par(mfrow=c(4, 4))
+par(mfrow = c(4, 4))
 boxplot(crime_df_1$pop, main = "Total population")
 boxplot(crime_df_1$pop18, main = "Percent of population aged 18-34")
 boxplot(crime_df_1$pop65, main = "Percent of population aged 65+")
@@ -54,5 +54,257 @@ boxplot(crime_df_1$region, main = "Geographical region")
 
 mult.fit = lm(crimes ~ ., data = crime_df_1)
 summary(mult.fit)
+```
+
+```{r}
+mult.fit1 = lm(bagrad ~ ., data = crime_df_1)
+summary(mult.fit1)
+```
+
+```{r}
+step.model = stepAIC(mult.fit, direction = "both", 
+                      trace = FALSE)
+summary(step.model)
+```
+
+```{r}
+step_model1 = stepAIC(mult.fit, direction = "forward", 
+                      trace = FALSE)
+
+summary(step_model1)
+```
+
+```{r}
+step_model2 = stepAIC(mult.fit, direction = "backward", 
+                      trace = FALSE)
+
+summary(step_model2)
+```
+
+## Backwards Elimination
+
+Take out non-significant variables one at a time starting with the highest p-value.
+
+```{r}
+# No Liver
+step1 = update(mult.fit, . ~ . -pop65)
+summary(step1)
+
+# No Alcmod
+step2 = update(step1, . ~ . -unemp)
+summary(step2)
+
+# No Age
+step3 = update(step2, . ~ . -bagrad)
+summary(step3)
+
+# No Gender
+step4 = update(step3, . ~ . -pop18)
+summary(step4)
+
+# just use one function
+step(mult.fit, direction='backward')
+step
+```
+
+## Forward Selection
+
+Reversed backward elimination starting with the lowest p-value.
+
+```{r}
+### Step 1:  Fit simple linear regressions for all variables,look for the variable with lowest p-value
+fit1 = lm(crimes ~ pop, data = crime_df_1)
+summary(fit1)
+fit2 = lm(crimes ~ totalinc, data = crime_df_1)
+summary(fit2)
+fit3 = lm(crimes ~ area, data = crime_df_1)
+summary(fit3)
+fit4 = lm(crimes ~ pcincome, data = crime_df_1)
+summary(fit4)
+fit5 = lm(crimes ~ poverty, data = crime_df_1)
+summary(fit5)
+fit6 = lm(crimes ~ docs, data = crime_df_1)
+summary(fit6)
+fit7 = lm(crimes ~ beds, data = crime_df_1)
+summary(fit7)
+fit8 = lm(crimes ~ region, data = crime_df_1)
+summary(fit8)
+fit9 = lm(crimes ~ hsgrad, data = crime_df_1)
+summary(fit9)
+fit10 = lm(crimes ~ pop18, data = crime_df_1)
+summary(fit10)
+fit11 = lm(crimes ~ bagrad, data = crime_df_1)
+summary(fit11)
+fit12 = lm(crimes ~ unemp, data = crime_df_1)
+summary(fit12)
+fit13 = lm(crimes ~ pop65, data = crime_df_1)
+summary(fit13)
+
+# Enter first the one with the lowest p-value: pop
+forward1 = lm(crimes ~ pop, data = crime_df_1)
+summary(forward1)
+
+### Step 2: Enter the one with the lowest p-value in the rest 
+fit1 = update(forward1, . ~ . +beds)
+summary(fit1)
+fit2 = update(forward1, . ~ . +docs)
+summary(fit2)
+fit3 = update(forward1, . ~ . +totalinc)
+summary(fit3)
+fit4 = update(forward1, . ~ . +poverty)
+summary(fit4)
+fit5 = update(forward1, . ~ . +area)
+summary(fit5)
+fit6 = update(forward1, . ~ . +pcincome)
+summary(fit6)
+fit7 = update(forward1, . ~ . +hsgrad)
+summary(fit7)
+fit8 = update(forward1, . ~ . +region) #0.0556
+summary(fit8)
+fit9 = update(forward1, . ~ . +pop18)  # 0.0594
+summary(fit9)
+fit10 = update(forward1, . ~ . +bagrad) # 0.1064
+summary(fit10)
+fit11 = update(forward1, . ~ . +unemp) # 0.3620
+summary(fit11)
+fit12 = update(forward1, . ~ . +pop65) # 0.4603
+summary(fit12)
+
+# Enter the one with the lowest p-value: totalinc
+forward2 = update(forward1, . ~ . + totalinc)
+summary(forward2)
+
+### Step 3: Enter the one with the lowest p-value in the rest 
+fit1 = update(forward2, . ~ . +poverty)
+summary(fit1)
+fit2 = update(forward2, . ~ . +beds)
+summary(fit2)
+fit3 = update(forward2, . ~ . +pcincome)
+summary(fit3)
+fit4 = update(forward2, . ~ . +hsgrad)
+summary(fit4)
+fit5 = update(forward2, . ~ . +bagrad)
+summary(fit5)
+fit6 = update(forward2, . ~ . +unemp)
+summary(fit6)
+fit7 = update(forward2, . ~ . +docs)
+summary(fit7)
+fit8 = update(forward2, . ~ . +region) # 0.177
+summary(fit8)
+fit9 = update(forward2, . ~ . +area) # 0.272
+summary(fit9)
+fit10 = update(forward2, . ~ . +pop18) # 0.354
+summary(fit10)
+fit11 = update(forward2, . ~ . +pop65) # 0.666
+summary(fit11)
+# Enter the one with the lowest p-value: area
+forward3 = update(forward2, . ~ . + area)
+summary(forward3)
+
+### Step 4: Enter the one with the lowest p-value in the rest 
+fit1 = update(forward3, . ~ . +beds)
+summary(fit1)
+fit2 = update(forward3, . ~ . +pcincome)
+summary(fit2)
+fit3 = update(forward3, . ~ . +bagrad)
+summary(fit3)
+fit4 = update(forward3, . ~ . +poverty)
+summary(fit4)
+fit5 = update(forward3, . ~ . +docs) # 0.0736
+summary(fit5)
+fit6 = update(forward3, . ~ . +hsgrad) # 0.323
+summary(fit6)
+fit7 = update(forward3, . ~ . +pop18) # 0.514
+summary(fit7)
+fit8 = update(forward3, . ~ . +unemp) # 0.681
+summary(fit8)
+fit9 = update(forward3, . ~ . +region) # 0.719
+summary(fit9)
+fit10 = update(forward3, . ~ . +pop65) # 0.9021
+summary(fit10)
+# Enter the one with the lowest p-value: pcincome
+forward4 = update(forward3, . ~ . + pcincome)
+summary(forward4)
+
+
+### Step 5: Enter the one with the lowest p-value in the rest 
+fit1 = update(forward4, . ~ . +beds) # 0.01132
+summary(fit1)
+fit2 = update(forward4, . ~ . +poverty) # 0.0139
+summary(fit2)
+fit3 = update(forward4, . ~ . +bagrad) # 0.0324
+summary(fit3)
+fit4 = update(forward4, . ~ . +docs) # 0.252
+summary(fit4)
+fit5 = update(forward4, . ~ . +region) # 0.31729
+summary(fit5)
+fit6 = update(forward4, . ~ . +hsgrad) # 0.325
+summary(fit6)
+fit7 = update(forward4, . ~ . +pop18) # 0.744
+summary(fit7)
+fit8 = update(forward4, . ~ . +unemp) # 0.8621
+summary(fit8)
+fit9 = update(forward4, . ~ . +pop65) # 0.971
+summary(fit9)
+
+# Enter the one with the lowest p-value: poverty
+forward5 = update(forward4, . ~ . + poverty)
+summary(forward5)
+
+### Step 6: Enter the one with the lowest p-value in the rest 
+fit1 = update(forward5, . ~ . +hsgrad) # 0.00719
+summary(fit1)
+fit2 = update(forward5, . ~ . +beds) # 0.0179
+summary(fit2)
+fit3 = update(forward5, . ~ . +region) # 0.12648
+summary(fit3)
+fit4 = update(forward5, . ~ . +docs) # 0.271109
+summary(fit4)
+fit5 = update(forward5, . ~ . +unemp) # 0.331057
+summary(fit5)
+fit6 = update(forward5, . ~ . +pop18) # 0.642288
+summary(fit6)
+fit7 = update(forward5, . ~ . +bagrad) # 0.726999
+summary(fit7)
+fit8 = update(forward5, . ~ . +pop65) # 0.968929
+summary(fit8)
+
+
+
+# P-value of all new added variables are larger than 0.05, which means that they 
+# are not significant predictor, and we stop here.
+
+# The model we obtained is crimes ~ pop + totalinc + area + pcincome + poverty
+mult.fit.final = lm(crimes ~ pop + totalinc + area + pcincome + poverty, data = crime_df_1)
+summary(mult.fit.final)
+
+# fit using one function
+step(mult.fit, direction = 'forward')
+
+```
+
+## Test Based Procedures
+
+```{r}
+mat = as.matrix(crime_df_1)
+# Printing the 2 best models of each size, using the Cp criterion:
+leaps(x = mat[,1:8], y = mat[,9], nbest = 2, method = "Cp")
+
+# Printing the 2 best models of each size, using the adjusted R^2 criterion:
+leaps(x = mat[,1:8], y = mat[,9], nbest = 2, method = "adjr2")
+
+# Function regsubsets() performs a subset selection by identifying the "best" model that contains
+# a certain number of predictors. By default "best" is chosen using SSE/RSS (smaller is better)
+b = regsubsets(crimes ~ ., data = crime_df_1)
+rs = summary(b)
+
+# plot of Cp and Adj-R2 as functions of parameters
+par(mfrow=c(1,2))
+
+plot(2:9, rs$cp, xlab="No of parameters", ylab="Cp Statistic")
+abline(0,1)
+
+plot(2:9, rs$adjr2, xlab="No of parameters", ylab="Adj R2")
+
 ```
 
